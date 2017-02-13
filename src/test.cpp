@@ -26,7 +26,7 @@ public:
 			}
 			es.step();
 		}
-		int loop = 30;
+		int loop = 30; //system does not self-terminate, so make a loop for testing
 		while (loop--)
 		{
 			es.step();
@@ -52,6 +52,19 @@ int main()
 		},
 	};
 	TestCase(2, std::move(test0)).run();
+	
+	/*
+	elevator #0 picks up req #0 at floor 1
+	elevator #1 picks up req #1 at floor 2
+	elevator #0 stops at floor 5
+	elevator #1 stops at floor 6
+	elevator #0 picks up req #2 at floor 1
+	elevator #1 picks up req #3 at floor 1
+	elevator #0 stops at floor 4
+	elevator #0 picks up req #4 at floor 1
+	elevator #1 stops at floor 7
+	elevator #0 stops at floor 7
+	*/
 	
 	return 0;
 }
