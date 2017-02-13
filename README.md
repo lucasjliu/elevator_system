@@ -4,34 +4,34 @@ This is a simulation of basic elevator control system as described [here](https:
 
 ## Design
 
-### Overview
+#### Overview
 
 ...
 
 
-### Problems
+#### Problem Statement
 
 ...
 
 
-### Scheduling Algorithm
+#### Scheduling Algorithm
 
 ...
 
 
 ## Documentation
 
-### Modules
+#### Modules
 
 * **module 1** ...
 
 * **module 2** ...
 
-### Interface
+#### Interface
 
-* 'step()' ...
+* `step()` ...
 
-### UI
+#### UI
 
 
 ## Build Instructions
@@ -39,7 +39,7 @@ This is a simulation of basic elevator control system as described [here](https:
 make
 ```
 
-### Input
+#### Input
 
-### Output
+#### Output
 
