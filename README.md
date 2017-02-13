@@ -34,12 +34,18 @@ This is a simulation of basic elevator control system as described [here](https:
 #### UI
 
 
-## Build Instructions
+## Instructions
+
+#### Build
 ```
 make
 ```
 
-#### Input
+#### Running
 
-#### Output
+#### Sample Output
 
+
+## Author
+
+This project is created by Jiahuan Liu ([email](jiahuan.liu@outlook.com)) on Feb 12th, 2017.
