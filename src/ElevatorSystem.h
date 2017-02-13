@@ -212,6 +212,8 @@ private:
 	//select best elevator and remove from the queue
 	static ElevPtr _selectElev(ElevList& elevs, const Request& request, const DistFunc& distFunc = _dist)
 	{
+		if (elevs.empty()) return nullptr;
+	
 		vector<pair<int, ElevPtr>> scoreVec;
 		
 		for (ElevList::iterator itr = elevs.begin(); itr != elevs.end(); itr++)
@@ -219,13 +221,13 @@ private:
 			scoreVec.push_back({distFunc(**itr, request), *itr});
 		}
 		
-		sort(scoreVec.begin(), scoreVec.end());
+		auto minPair = _selectMin(scoreVec);
 		
 		ElevPtr elev = nullptr;
 		
-		if (scoreVec.front().first < FLOOR_NUM)
+		if (minPair.first < FLOOR_NUM)
 		{// for a valid potential elevator
-			elev = scoreVec.front().second;
+			elev = minPair.second;
 			
 			//remove from the list to avoid repeating
 			for (ElevList::iterator itr = elevs.begin(); itr != elevs.end();)
@@ -242,6 +244,21 @@ private:
 		}
 		
 		return elev;
+	}
+	
+	static pair<int, ElevPtr> _selectMin(vector<pair<int, ElevPtr>>& scoreVec)
+	{
+		pair<int, ElevPtr> minPair = scoreVec.front();
+		
+		for (vector<pair<int, ElevPtr>>::iterator itr = scoreVec.begin() + 1;
+			 itr != scoreVec.end(); itr++)
+		{
+			if (itr->first < minPair.first)
+			{
+				minPair = *itr;
+			}
+		}
+		return minPair;
 	}
 	
 private:

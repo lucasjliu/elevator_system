@@ -47,6 +47,7 @@ int main()
 			{1, 4, UP},
 		},
 		{
+			{3, 4, UP},
 			{1, 7, UP},
 			{1, 7, UP},
 		},
@@ -56,12 +57,14 @@ int main()
 	/*
 	elevator #0 picks up req #0 at floor 1
 	elevator #1 picks up req #1 at floor 2
+	elevator #0 picks up req #3 at floor 3
+	elevator #0 stops at floor 4
 	elevator #0 stops at floor 5
 	elevator #1 stops at floor 6
 	elevator #0 picks up req #2 at floor 1
-	elevator #1 picks up req #3 at floor 1
+	elevator #1 picks up req #4 at floor 1
 	elevator #0 stops at floor 4
-	elevator #0 picks up req #4 at floor 1
+	elevator #0 picks up req #5 at floor 1
 	elevator #1 stops at floor 7
 	elevator #0 stops at floor 7
 	*/
