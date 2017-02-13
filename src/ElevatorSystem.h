@@ -10,8 +10,11 @@
 #include <vector>
 #include <queue>
 #include <list>
+
 #include <functional>
+
 #include <algorithm>
+#include <cstdlib>
 
 using std::vector;
 using std::queue;
@@ -25,8 +28,8 @@ const int FLOOR_NUM = 80;
 
 struct Status
 {
-	int		floor;
-	State	state;
+	int			floor;
+	State		state;
 };
 
 struct Elevator
@@ -34,10 +37,10 @@ struct Elevator
 	bool moveOnce();
 	void addStop(int stopFloor);
 	
-	int		eid;
-	Status	status;
-	int		dest;
-	bool	stops[FLOOR_NUM];
+	int			eid;
+	Status		status;
+	int			dest;
+	bool		stops[FLOOR_NUM];
 };
 
 //a user request
@@ -84,7 +87,10 @@ public:
 	}
 	
 	//accept a passenger pickup request
-	void pickup(int floot, State dir);
+	void pickup(int floot, State dir)
+	{
+		
+	}
 	
 	//update status of an elevator by id
 	void update(int eid, const Status& status);
@@ -108,11 +114,29 @@ private:
 			
 			elev = _selectElev(elevs, req);
 			
-			_elevators.assign(elev, req);
+			if (elev)
+			{
+				_elevators.assign(elev, req);
+			}
+			else
+			{// no potential elevator, put this request into pending list.
+			//	request from _pendReqs should never come here///////////////
+				_pendReqs.push(req);
+			}
 		}
 	}
 	
-	static int _dist(const Elevator& elevator, const Request& request);
+	static int _dist(const Elevator& elevator, const Request& request)
+	{
+		int dist = FLOOR_NUM;
+		
+		if (elevator.status.state * request.direction >= 0)
+		{// potential elevator if it is not in opposite direction
+			dist = abs(elevator.status.floor - request.floor);
+		}
+		
+		return dist;
+	}
 	
 	//select best elevator and remove from the queue
 	static ElevPtr _selectElev(ElevList& elevs, const Request& request, const DistFunc& distFunc = _dist)
@@ -126,22 +150,32 @@ private:
 		
 		sort(scoreVec.begin(), scoreVec.end());
 		
-		ElevPtr elev = scoreVec.back().second;
+		ElevPtr elev = nullptr;
 		
-		for (ElevList::iterator itr = elevs.begin(); itr != elevs.end();)
-		{
-			if (elev->eid == (*itr)->eid)
-				elevs.erase(itr++);
-			else
-				itr++;
+		if (scoreVec.front().first < FLOOR_NUM)
+		{// for a valid potential elevator
+			elev = scoreVec.front().second;
+			
+			//remove from the list to avoid repeating
+			for (ElevList::iterator itr = elevs.begin(); itr != elevs.end();)
+			{
+				if (elev->eid == (*itr)->eid)
+				{
+					elevs.erase(itr++); //////////////////////
+				}
+				else
+				{
+					itr++;
+				}
+			}
 		}
 		
 		return elev;
 	}
 	
 private:
-	int			_elevNum;
-	Elevators	_elevators;
-	ReqQueue	_currReqs;
-	ReqQueue	_pendReqs;
+	int				_elevNum;
+	Elevators		_elevators;
+	ReqQueue		_currReqs;
+	ReqQueue		_pendReqs;
 };
