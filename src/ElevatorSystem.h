@@ -33,7 +33,10 @@ enum Direction {UP = 1, DOWN = -1};
 
 const int FLOOR_NUM = 80;
 
+////no need
 #define _DEBUG 1;//print result or not
+
+////namespace
 
 //a user request
 struct Request
@@ -149,6 +152,7 @@ public:
 	void printStatus() {}
 	
 private:
+	////write them into internal static algorithm class
 	void _handleRequest(ElevList& elevs, ReqQueue& requests)
 	{
 		Request req;
@@ -173,6 +177,7 @@ private:
 		}
 	}
 	
+	////start of algo
 	static int _dist(const Elevator& elevator, const Request& request)
 	{
 		int dist = FLOOR_NUM;
@@ -192,6 +197,7 @@ private:
 				elev.status.direction * (req.currFloor - elev.status.floor) > 0);
 	}
 	
+	////TODO
 	/*static bool _canPickUp(const Elevator& elevator, const Request& request)
 	{
 		if (elevator.status.state == READY)
@@ -214,14 +220,23 @@ private:
 	{
 		if (elevs.empty()) return nullptr;
 	
-		vector<pair<int, ElevPtr>> scoreVec;
+		vector<pair<int, ElevPtr>> scoreVec; ////distVec
+		
+		pair<int, ElevPtr> minPair(INT_MAX, nullptr);
 		
 		for (ElevList::iterator itr = elevs.begin(); itr != elevs.end(); itr++)
 		{
-			scoreVec.push_back({distFunc(**itr, request), *itr});
+			int dist = distFunc(**itr, request);
+			if (dist < minPair.first)
+			{
+				minPair.first = dist;
+				minPair.second = *itr;
+			}
+			////no need to remember cause just need the min
+			//scoreVec.push_back({distFunc(**itr, request), *itr});
 		}
 		
-		auto minPair = _selectMin(scoreVec);
+		//auto minPair = _selectMin(scoreVec);
 		
 		ElevPtr elev = nullptr;
 		
@@ -246,6 +261,7 @@ private:
 		return elev;
 	}
 	
+	/*
 	static pair<int, ElevPtr> _selectMin(vector<pair<int, ElevPtr>>& scoreVec)
 	{
 		pair<int, ElevPtr> minPair = scoreVec.front();
@@ -259,7 +275,7 @@ private:
 			}
 		}
 		return minPair;
-	}
+	}*/
 	
 private:
 	Elevators		_elevators;
